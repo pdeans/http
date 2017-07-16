@@ -64,7 +64,7 @@ class Client implements ClientInterface
 	 *
 	 * @param \pdeans\Http\Contracts\MessageFactoryInterface|null  $message  Http message object
 	 * @param \pdeans\Http\Contracts\StreamFactoryInterface|null  $stream  Http stream object
-	 * @param array  $$ptions  cURL options|@link http://php.net/curl_setopt
+	 * @param array  $options  cURL options | @link http://php.net/curl_setopt
 	 */
 	public function __construct(array $options = [], MessageFactoryInterface $message = null, StreamFactoryInterface $stream = null)
 	{

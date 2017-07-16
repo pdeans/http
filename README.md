@@ -54,7 +54,7 @@ The client comes bundled with helper methods to provide a convenient way for iss
 
 - String of request body data **OR** an object implmentation of `Psr\Http\Message\StreamInterface`
 
-Note that the `pdeans\Http\Factories\StreamFactory` and `pdeans\Http\Factories\UriFactory` classes provide create methods to integrate the PSR interfaces listed above if the object implementations are needed for the request.
+Note that the `pdeans\Http\Factories\StreamFactory` and `pdeans\Http\Factories\UriFactory` classes provide create methods to implement the PSR interfaces listed above if the object integrations are needed for the request.
 
 Example requests:
 
@@ -62,18 +62,19 @@ Example requests:
 // With header
 $response = $client->get('http://example.com/1', ['custom-header' => 'header/value']);
 //Without header
-$response = $client->head('http://example.com/2');
+$response = $client->get('http://example.com/2');
 
 $headers = [
     'Content-Type' => 'application/json',
     'Accept' => 'application/json',
 ];
 $data = json_encode(['json' => 'json data']);
+
 // With headers and request body
 $response = $client->post('http://example.com/4', $headers, $data);
 ```
 
-If more control over the request is needed, the helper methods can be bypassed altogether and the underlying main request method, `sendRequest`, can be called directly. This method accepts an object implementation of `Psr\Http\Message\RequestInterface`. The library provides a factory implementation for creating a request object -- `pdeans\Http\Factories\MessageFactory -> createRequest()`
+If more control over the request is needed, the helper methods can be bypassed altogether and the underlying main request method, `sendRequest`, can be called directly. This method accepts an object implementation of `Psr\Http\Message\RequestInterface`. The library provides a factory implementation for creating a request object, `pdeans\Http\Factories\MessageFactory->createRequest()`
 
 ### HTTP Responses
 
