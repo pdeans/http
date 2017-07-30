@@ -4,17 +4,17 @@ namespace pdeans\Http\Factories;
 
 use pdeans\Http\Contracts\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
-use Slim\Http\Stream;
+use Zend\Diactoros\Stream;
 
 /**
  * Stream Factory
  *
- * Factory for creating Slim PSR-7 Streams
+ * Factory for creating Zend\Diactoros PSR-7 Streams
  */
 final class StreamFactory implements StreamFactoryInterface
 {
 	/**
-	 * Create a Slim PSR-7 Stream
+	 * Create a Zend\Diactoros PSR-7 Stream
 	 *
 	 * @param \Psr\Http\Message\StreamInterface|resource|string|null  $body  Stream body
 	 * @return \Psr\Http\Message\StreamInterface  Stream object
@@ -29,7 +29,7 @@ final class StreamFactory implements StreamFactoryInterface
 			return new Stream($body);
 		}
 
-		$stream = new Stream(fopen('php://memory', 'r+'));
+		$stream = new Stream(fopen('php://memory', 'rw'));
 
 		if ($body !== null && $body !== '') {
 			$stream->write((string)$body);

@@ -5,17 +5,17 @@ namespace pdeans\Http\Factories;
 use InvalidArgumentException;
 use pdeans\Http\Contracts\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
-use Slim\Http\Uri;
+use Zend\Diactoros\Uri;
 
 /**
  * Uri Factory
  *
- * Factory for creating Slim PSR-7 Uris
+ * Factory for creating Zend\Diactoros PSR-7 Uris
  */
 final class UriFactory implements UriFactoryInterface
 {
 	/**
-	 * Create a Slim PSR-7 Uri
+	 * Create a Zend\Diactoros PSR-7 Uri
 	 *
 	 * @param \Psr\Http\Message\UriInterface|string  $uri  Request uri
 	 * @return \Psr\Http\Message\UriInterface
@@ -28,7 +28,7 @@ final class UriFactory implements UriFactoryInterface
 		}
 
 		if (is_string($uri)) {
-			return Uri::createFromString($uri);
+			return new Uri($uri);
 		}
 
 		throw new InvalidArgumentException(

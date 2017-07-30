@@ -4,15 +4,13 @@ namespace pdeans\Http\Factories;
 
 use pdeans\Http\Contracts\MessageFactoryInterface;
 use pdeans\Http\Factories\StreamFactory;
-use pdeans\Http\Factories\UriFactory;
-use Slim\Http\Headers;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Zend\Diactoros\Request;
+use Zend\Diactoros\Response;
 
 /**
  * Message Factory
  *
- * Factory for creating Slim PSR-7 Messages
+ * Factory for creating Zend\Diactoros PSR-7 Messages
  */
 final class MessageFactory implements MessageFactoryInterface
 {
@@ -24,19 +22,11 @@ final class MessageFactory implements MessageFactoryInterface
 	private $stream;
 
 	/**
-	 * Uri Factory
-	 *
-	 * @var pdeans\Http\Factories\UriFactory
-	 */
-	private $uri;
-
-	/**
 	 * Create a new Message Factory object
 	 */
 	public function __construct()
 	{
 		$this->stream = new StreamFactory;
-		$this->uri    = new UriFactory;
 	}
 
 	/**
@@ -53,15 +43,7 @@ final class MessageFactory implements MessageFactoryInterface
 	public function createRequest($method, $uri, array $headers = [], $body = null, $protocol_version = '1.1')
 	{
 		return (
-			new Request(
-				$method,
-				$this->uri->createUri($uri),
-				new Headers($headers),
-				[],
-				[],
-				$this->stream->createStream($body),
-				[]
-			)
+			new Request($uri, $method, $this->stream->createStream($body), $headers)
 		)->withProtocolVersion($protocol_version);
 	}
 
@@ -79,7 +61,7 @@ final class MessageFactory implements MessageFactoryInterface
 	public function createResponse($status = 200, $reason = null, array $headers = [], $body = null, $protocol_version = '1.1')
 	{
 		return (
-			new Response($status, new Headers($headers), $this->stream->createStream($body))
+			new Response($this->stream->createStream($body), $status, $headers)
 		)->withProtocolVersion($protocol_version);
 	}
 }
