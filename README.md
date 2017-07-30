@@ -1,19 +1,20 @@
-# PHP PSR-7 cURL HTTP Client
+## PHP PSR-7 cURL HTTP Client
 
 Lightweight cURL client intergration of the PHP [PSR-7](http://www.php-fig.org/psr/psr-7/) HTTP message interface.
 
-## Installation
+### Installation
 
 Install via [Composer](https://getcomposer.org/).
+
 ```
 $ composer require pdeans/http
 ```
 
-## Usage
+### Usage
 
-The cURL client is built on top of the [Slim Framework's](https://github.com/slimphp/Slim-Http) strict PSR-7 implementation.
+The cURL client is built on top of Zend Framework's [Diactoros](https://zendframework.github.io/zend-diactoros/) strict PSR-7 implementation.
 
-### Configuring the Client
+#### Configuring the Client
 
 The client accepts an optional associative array of [curl options](http://php.net/curl_setopt) as the first parameter to configure the cURL client. However, please note that the following cURL options cannot be set in order to comply with PSR-7 standards. Instead, these options should be provided as part of the request options:
 
@@ -41,7 +42,7 @@ $client = new Client([
 
 On a side note, the client may also accept optional 2nd and 3rd parameters of `pdeans\Http\Contracts\MessageFactoryInterface` and `pdeans\Http\Contracts\StreamFactoryInterface` implementations respectively. The client uses instances of `pdeans\Http\Factories\MessageFactory` and `pdeans\Http\Factories\StreamFactory` by default if these parameters are omitted.
 
-### HTTP Requests
+#### HTTP Requests
 
 The client comes bundled with helper methods to provide a convenient way for issuing the supported HTTP request methods.
 
@@ -56,36 +57,36 @@ The client comes bundled with helper methods to provide a convenient way for iss
 
 Note that the `pdeans\Http\Factories\StreamFactory` and `pdeans\Http\Factories\UriFactory` classes provide create methods to implement the PSR interfaces listed above if the object integrations are needed for the request.
 
-Example requests:
+**Example requests:**
 
 ```php
-// With header
+// GET request with header
 $response = $client->get('http://example.com/1', ['custom-header' => 'header/value']);
-//Without header
+
+// GET request without header
 $response = $client->get('http://example.com/2');
 
 $headers = [
     'Content-Type' => 'application/json',
     'Accept' => 'application/json',
 ];
+
 $data = json_encode(['json' => 'json data']);
 
-// With headers and request body
+// POST request with headers and request body
 $response = $client->post('http://example.com/4', $headers, $data);
 ```
 
 If more control over the request is needed, the helper methods can be bypassed altogether and the underlying main request method, `sendRequest`, can be called directly. This method accepts an object implementation of `Psr\Http\Message\RequestInterface`. The library provides a factory implementation for creating a request object, `pdeans\Http\Factories\MessageFactory->createRequest()`
 
-### HTTP Responses
+#### HTTP Responses
 
-Each HTTP request returns a Response object (see `$response` in request examples). The Response object is an instance of the `Slim\Http\Response` class, implementing the `Psr\Http\Message\RequestInterface`.
+Each HTTP request returns a Response object. The Response object is an instance of the `Zend\Diactoros\Response` class, which implements the `Psr\Http\Message\RequestInterface`.
 
-## Further Reading
+### Further Reading
 
 As this library is a layer built upon existing libraries and standards, I recommend that you read through some of their documentation to get a better understanding of how the various components work.
 
 - [PSR-7: Http Message Interface](http://www.php-fig.org/psr/psr-7/)
-- [Slim Framework: Request Object](https://www.slimframework.com/docs/objects/request.html#the-request-method)
-- [Slim Framework: Response Object](https://www.slimframework.com/docs/objects/response.html#the-response-status)
-- [Slim Framework: Http Library](https://github.com/slimphp/Slim-Http) (Strict PSR-7 Implementation)
+- [Zend Framework: Diactoros Library](https://zendframework.github.io/zend-diactoros/) (PSR-7 Implementation)
 - [PHP Client URL Library](http://php.net/manual/en/book.curl.php) (PHP cURL)
