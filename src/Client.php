@@ -236,7 +236,13 @@ class Client implements ClientInterface
 
 		// Reset cURL handler
 		if (is_resource($this->ch)) {
-			curl_reset($this->ch);
+			if (function_exists('curl_reset')) {
+				curl_reset($this->ch);
+			}
+			else {
+				curl_close($this->ch);
+				$this->ch = curl_init();
+			}
 		}
 		else {
 			$this->ch = curl_init();
