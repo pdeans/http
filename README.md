@@ -66,15 +66,31 @@ $response = $client->get('http://example.com/1', ['custom-header' => 'header/val
 // GET request without header
 $response = $client->get('http://example.com/2');
 
+// Response body output
+echo (string)$response->getBody();
+
 $headers = [
-    'Content-Type' => 'application/json',
-    'Accept' => 'application/json',
+    'Content-Type'  => 'application/json',
+    'Accept'        => 'application/json',
+    'Authorization' => 'Basic '.base64_encode('username:password'),
 ];
 
 $data = json_encode(['json' => 'json data']);
 
 // POST request with headers and request body
 $response = $client->post('http://example.com/4', $headers, $data);
+
+// Response body output
+echo (string)$response->getBody();
+
+// Response headers output
+echo '<pre>', print_r($response->getHeaders()), '</pre>';
+
+// Response status code output
+echo $response->getStatusCode();
+
+// Response reason phrase output
+echo $response->getReasonPhrase();
 ```
 
 If more control over the request is needed, the helper methods can be bypassed altogether and the underlying main request method, `sendRequest`, can be called directly. This method accepts an object implementation of `Psr\Http\Message\RequestInterface`. The library provides a factory implementation for creating a request object, `pdeans\Http\Factories\MessageFactory->createRequest()`
