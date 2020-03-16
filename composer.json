@@ -14,7 +14,7 @@
 	"require": {
 		"php": "^7.1",
 		"ext-curl": "*",
-		"zendframework/zend-diactoros": "^2.1"
+		"laminas/laminas-diactoros": "^2.2"
 	},
 	"autoload": {
 		"psr-4": {
