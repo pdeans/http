@@ -5,17 +5,17 @@ namespace pdeans\Http\Factories;
 use InvalidArgumentException;
 use pdeans\Http\Contracts\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\Uri;
 
 /**
  * Uri Factory
  *
- * Factory for creating Zend\Diactoros PSR-7 Uris
+ * Factory for creating Laminas\Diactoros PSR-7 Uris
  */
 final class UriFactory implements UriFactoryInterface
 {
 	/**
-	 * Create a Zend\Diactoros PSR-7 Uri
+	 * Create a Laminas\Diactoros PSR-7 Uri
 	 *
 	 * @param \Psr\Http\Message\UriInterface|string  $uri  Request uri
 	 * @return \Psr\Http\Message\UriInterface

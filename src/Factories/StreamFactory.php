@@ -4,17 +4,17 @@ namespace pdeans\Http\Factories;
 
 use pdeans\Http\Contracts\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
-use Zend\Diactoros\Stream;
+use Laminas\Diactoros\Stream;
 
 /**
  * Stream Factory
  *
- * Factory for creating Zend\Diactoros PSR-7 Streams
+ * Factory for creating Laminas\Diactoros PSR-7 Streams
  */
 final class StreamFactory implements StreamFactoryInterface
 {
 	/**
-	 * Create a Zend\Diactoros PSR-7 Stream
+	 * Create a Laminas\Diactoros PSR-7 Stream
 	 *
 	 * @param \Psr\Http\Message\StreamInterface|resource|string|null  $body  Stream body
 	 * @return \Psr\Http\Message\StreamInterface  Stream object

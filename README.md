@@ -97,12 +97,12 @@ If more control over the request is needed, the helper methods can be bypassed a
 
 #### HTTP Responses
 
-Each HTTP request returns a Response object. The Response object is an instance of the `Zend\Diactoros\Response` class, which implements the `Psr\Http\Message\RequestInterface`.
+Each HTTP request returns a Response object. The Response object is an instance of the `Laminas\Diactoros\Response` class, which implements the `Psr\Http\Message\RequestInterface`.
 
 ### Further Reading
 
 As this library is a layer built upon existing libraries and standards, I recommend that you read through some of their documentation to get a better understanding of how the various components work.
 
 - [PSR-7: Http Message Interface](http://www.php-fig.org/psr/psr-7/)
-- [Zend Framework: Diactoros Library](https://zendframework.github.io/zend-diactoros/) (PSR-7 Implementation)
+- [Laminas Diactoros Library:](https://docs.laminas.dev/laminas-diactoros/) (PSR-7 Implementation)
 - [PHP Client URL Library](http://php.net/manual/en/book.curl.php) (PHP cURL)

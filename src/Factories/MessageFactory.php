@@ -4,13 +4,13 @@ namespace pdeans\Http\Factories;
 
 use pdeans\Http\Contracts\MessageFactoryInterface;
 use pdeans\Http\Factories\StreamFactory;
-use Zend\Diactoros\Request;
-use Zend\Diactoros\Response;
+use Laminas\Diactoros\Request;
+use Laminas\Diactoros\Response;
 
 /**
  * Message Factory
  *
- * Factory for creating Zend\Diactoros PSR-7 Messages
+ * Factory for creating Laminas\Diactoros PSR-7 Messages
  */
 final class MessageFactory implements MessageFactoryInterface
 {
