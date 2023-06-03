@@ -1,0 +1,10 @@
+* text=auto
+
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+.editorconfig export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+README.md export-ignore
