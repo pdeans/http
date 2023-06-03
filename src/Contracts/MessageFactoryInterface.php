@@ -7,4 +7,6 @@ namespace pdeans\Http\Contracts;
  *
  * Common interface RequestFactory and ResponseFactory interfaces
  */
-interface MessageFactoryInterface extends RequestFactoryInterface, ResponseFactoryInterface {}
+interface MessageFactoryInterface extends RequestFactoryInterface, ResponseFactoryInterface
+{
+}

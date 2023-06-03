@@ -7,4 +7,6 @@ namespace pdeans\Http\Exceptions;
  *
  * Failed http request due to a network related issue
  */
-class NetworkException extends RequestException {}
+class NetworkException extends RequestException
+{
+}

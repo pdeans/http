@@ -8,39 +8,33 @@ use Psr\Http\Message\RequestInterface;
 /**
  * Request Exception
  *
- * Failed http request exception class
+ * Failed http request exception class.
  */
 class RequestException extends TransferException
 {
-	/**
-	 * Request object
-	 *
-	 * @var \Psr\Http\Message\RequestInterface
-	 */
-	private $request;
+    /**
+     * Request object
+     *
+     * @var \Psr\Http\Message\RequestInterface
+     */
+    private $request;
 
-	/**
-	 * Create request exception object
-	 *
-	 * @param string  $message  Exception message
-	 * @param \Psr\Http\Message\RequestInterface  $request  Request object
-	 * @param \Exception|null  $last_exception  Previous exception object
-	 */
-	public function __construct($message, RequestInterface $request, Exception $last_exception = null)
-	{
-		$this->request = $request;
+    /**
+     * Create request exception object.
+     */
+    public function __construct(string $message, RequestInterface $request, ?Exception $last_exception = null)
+    {
+        $this->request = $request;
 
-		// \TransferException => \RuntimeException
-		parent::__construct($message, 0, $last_exception);
-	}
+        // \TransferException => \RuntimeException
+        parent::__construct($message, 0, $last_exception);
+    }
 
-	/**
-	 * Get the request object
-	 *
-	 * @return \Psr\Http\Message\RequestInterface
-	 */
-	public function getRequest()
-	{
-		return $this->request;
-	}
+    /**
+     * Get the request object.
+     */
+    public function getRequest(): RequestInterface
+    {
+        return $this->request;
+    }
 }
