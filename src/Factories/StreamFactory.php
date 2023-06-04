@@ -2,39 +2,13 @@
 
 namespace pdeans\Http\Factories;
 
-use pdeans\Http\Contracts\StreamFactoryInterface;
-use Psr\Http\Message\StreamInterface;
-use Laminas\Diactoros\Stream;
+use Laminas\Diactoros\StreamFactory as PSR17StreamFactory;
 
 /**
  * Stream Factory
  *
- * Factory for creating Laminas\Diactoros PSR-7 Streams
+ * Create a new stream.
  */
-final class StreamFactory implements StreamFactoryInterface
+class StreamFactory extends PSR17StreamFactory
 {
-	/**
-	 * Create a Laminas\Diactoros PSR-7 Stream
-	 *
-	 * @param \Psr\Http\Message\StreamInterface|resource|string|null  $body  Stream body
-	 * @return \Psr\Http\Message\StreamInterface  Stream object
-	 */
-	public function createStream($body = null)
-	{
-		if ($body instanceof StreamInterface) {
-			return $body;
-		}
-
-		if (is_resource($body)) {
-			return new Stream($body);
-		}
-
-		$stream = new Stream(fopen('php://memory', 'rw'));
-
-		if ($body !== null && $body !== '') {
-			$stream->write((string)$body);
-		}
-
-		return $stream;
-	}
 }

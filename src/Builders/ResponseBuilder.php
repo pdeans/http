@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Response Builder
  *
- * Build a PSR-7 Resonse object
+ * Build a PSR-7 Response object
  */
 class ResponseBuilder
 {

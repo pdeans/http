@@ -3,35 +3,26 @@
 namespace pdeans\Http;
 
 use CurlHandle;
-use RuntimeException;
 use InvalidArgumentException;
+use RuntimeException;
 use UnexpectedValueException;
-use Psr\Http\Message\UriInterface;
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use pdeans\Http\Factories\StreamFactory;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UriInterface;
 use pdeans\Http\Builders\ResponseBuilder;
-use pdeans\Http\Factories\MessageFactory;
 use pdeans\Http\Contracts\ClientInterface;
 use pdeans\Http\Exceptions\NetworkException;
 use pdeans\Http\Exceptions\RequestException;
-use pdeans\Http\Contracts\StreamFactoryInterface;
-use pdeans\Http\Contracts\MessageFactoryInterface;
+use pdeans\Http\Factories\StreamFactory;
 
 class Client implements ClientInterface
 {
     /**
-     * PSR-7 message object
-     *
-     * @var \pdeans\Http\Contracts\MessageFactoryInterface
-     */
-    protected MessageFactoryInterface $message;
-
-    /**
      * PSR-7 stream object
      *
-     * @var \pdeans\Http\Contracts\StreamFactoryInterface
+     * @var \Psr\Http\Message\StreamFactoryInterface
      */
     protected StreamFactoryInterface $stream;
 
@@ -61,10 +52,8 @@ class Client implements ClientInterface
      */
     public function __construct(
         array $options = [],
-        ?MessageFactoryInterface $message = null,
-        ?StreamFactoryInterface $stream = null
+        StreamFactoryInterface $stream = null
     ) {
-        $this->message = $message ?: new MessageFactory();
         $this->stream  = $stream ?: new StreamFactory();
         $this->options = $options;
 
@@ -91,11 +80,9 @@ class Client implements ClientInterface
     public function delete(
         UriInterface|string $uri,
         array $headers = [],
-        ?StreamInterface $body = null
+        StreamInterface|null $body = null
     ): ResponseInterface {
-        return $this->sendRequest(
-            $this->message->createRequest('DELETE', $uri, $headers, $body)
-        );
+        return $this->sendRequest(new Request($uri, 'DELETE', $body, $headers));
     }
 
     /**
@@ -103,9 +90,7 @@ class Client implements ClientInterface
      */
     public function get(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(
-            $this->message->createRequest('GET', $uri, $headers, null)
-        );
+        return $this->sendRequest(new Request($uri, 'GET', null, $headers));
     }
 
     /**
@@ -113,9 +98,7 @@ class Client implements ClientInterface
      */
     public function head(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(
-            $this->message->createRequest('HEAD', $uri, $headers, null)
-        );
+        return $this->sendRequest(new Request($uri, 'HEAD', null, $headers));
     }
 
     /**
@@ -124,11 +107,9 @@ class Client implements ClientInterface
     public function options(
         UriInterface|string $uri,
         array $headers = [],
-        ?StreamInterface $body = null
+        StreamInterface|null $body = null
     ): ResponseInterface {
-        return $this->sendRequest(
-            $this->message->createRequest('OPTIONS', $uri, $headers, $body)
-        );
+        return $this->sendRequest(new Request($uri, 'OPTIONS', $body, $headers));
     }
 
     /**
@@ -137,11 +118,9 @@ class Client implements ClientInterface
     public function patch(
         UriInterface|string $uri,
         array $headers = [],
-        ?StreamInterface $body = null
+        StreamInterface|null $body = null
     ): ResponseInterface {
-        return $this->sendRequest(
-            $this->message->createRequest('PATCH', $uri, $headers, $body)
-        );
+        return $this->sendRequest(new Request($uri, 'PATCH', $body, $headers));
     }
 
     /**
@@ -150,11 +129,9 @@ class Client implements ClientInterface
     public function post(
         UriInterface|string $uri,
         array $headers = [],
-        ?StreamInterface $body = null
+        StreamInterface|null $body = null
     ): ResponseInterface {
-        return $this->sendRequest(
-            $this->message->createRequest('POST', $uri, $headers, $body)
-        );
+        return $this->sendRequest(new Request($uri, 'POST', $body, $headers));
     }
 
     /**
@@ -163,11 +140,9 @@ class Client implements ClientInterface
     public function put(
         UriInterface|string $uri,
         array $headers = [],
-        ?StreamInterface $body = null
+        StreamInterface|null $body = null
     ): ResponseInterface {
-        return $this->sendRequest(
-            $this->message->createRequest('PUT', $uri, $headers, $body)
-        );
+        return $this->sendRequest(new Request($uri, 'PUT', $body, $headers));
     }
 
     /**
@@ -175,9 +150,7 @@ class Client implements ClientInterface
      */
     public function trace(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(
-            $this->message->createRequest('TRACE', $uri, $headers, null)
-        );
+        return $this->sendRequest(new Request($uri, 'TRACE', null, $headers));
     }
 
     #---------------------------------------------------#
@@ -255,9 +228,7 @@ class Client implements ClientInterface
             throw new RuntimeException('Unable to create stream "php://temp"');
         }
 
-        return new ResponseBuilder(
-            $this->message->createResponse(200, null, [], $body)
-        );
+        return new ResponseBuilder(new Response($body, 200, []));
     }
 
     #---------------------------------------------------#

@@ -22,7 +22,7 @@ class RequestException extends TransferException
     /**
      * Create request exception object.
      */
-    public function __construct(string $message, RequestInterface $request, ?Exception $last_exception = null)
+    public function __construct(string $message, RequestInterface $request, Exception|null $last_exception = null)
     {
         $this->request = $request;
 
