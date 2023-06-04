@@ -2,7 +2,6 @@
 
 namespace pdeans\Http;
 
-use resource;
 use CurlHandle;
 use InvalidArgumentException;
 use RuntimeException;
@@ -25,7 +24,7 @@ class Client implements ClientInterface
      *
      * @var \Psr\Http\Message\StreamFactoryInterface
      */
-    protected StreamFactoryInterface $stream;
+    protected StreamFactoryInterface $streamFactory;
 
     /**
      * cURL handler
@@ -55,7 +54,7 @@ class Client implements ClientInterface
         array $options = [],
         StreamFactoryInterface $stream = null
     ) {
-        $this->stream  = $stream ?: new StreamFactory();
+        $this->streamFactory  = $stream ?: new StreamFactory();
         $this->options = $options;
         $this->ch = null;
 
@@ -92,7 +91,7 @@ class Client implements ClientInterface
      */
     public function get(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(new Request($uri, 'GET', $this->stream->createStream(), $headers));
+        return $this->sendRequest(new Request($uri, 'GET', $this->streamFactory->createStream(), $headers));
     }
 
     /**
@@ -100,7 +99,7 @@ class Client implements ClientInterface
      */
     public function head(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(new Request($uri, 'HEAD', $this->stream->createStream(), $headers));
+        return $this->sendRequest(new Request($uri, 'HEAD', $this->streamFactory->createStream(), $headers));
     }
 
     /**
@@ -152,7 +151,7 @@ class Client implements ClientInterface
      */
     public function trace(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(new Request($uri, 'TRACE', $this->stream->createStream(), $headers));
+        return $this->sendRequest(new Request($uri, 'TRACE', $this->streamFactory->createStream(), $headers));
     }
 
     #---------------------------------------------------#
@@ -224,7 +223,7 @@ class Client implements ClientInterface
      */
     protected function createResponse(): ResponseBuilder
     {
-        $body = $this->stream->createStream();
+        $body = $this->streamFactory->createStream();
 
         return new ResponseBuilder(new Response($body, 200, []));
     }
@@ -280,8 +279,8 @@ class Client implements ClientInterface
         }
 
         return is_resource($stream)
-            ? $this->stream->createStreamFromResource($stream)
-            : $this->stream->createStream($stream);
+            ? $this->streamFactory->createStreamFromResource($stream)
+            : $this->streamFactory->createStream($stream);
     }
 
     #---------------------------------------------------#
