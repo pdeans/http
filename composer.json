@@ -1,24 +1,26 @@
 {
-	"name": "pdeans/http",
-	"type": "library",
-	"description": "PSR-7 cURL HTTP client.",
-	"keywords": ["psr7", "psr-7", "http", "request", "response", "message", "stream", "uri", "url", "curl", "client", "curl client", "http client"],
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Patrick Stearns",
-			"email": "pdeans1986@gmail.com",
-			"homepage": "http://patrickstearns.us"
-		}
-	],
-	"require": {
-		"php": "^7.1 || ^8.0",
-		"ext-curl": "*",
-		"laminas/laminas-diactoros": "^2.2"
-	},
-	"autoload": {
-		"psr-4": {
-			"pdeans\\Http\\": "src/"
-		}
-	}
+    "name": "pdeans/http",
+    "type": "library",
+    "description": "PSR-7 cURL HTTP client.",
+    "keywords": ["psr7", "psr-7", "psr17", "psr-17", "http", "request", "response", "message", "stream", "uri", "url", "curl", "client", "curl client", "http client"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Patrick Stearns",
+            "email": "pdeans1986@gmail.com",
+            "homepage": "http://patrickstearns.us"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-curl": "*",
+        "laminas/laminas-diactoros": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "pdeans\\Http\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

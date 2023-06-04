@@ -10,4 +10,6 @@ use RuntimeException;
  *
  * Base class for http transfer exceptions
  */
-class TransferException extends RuntimeException implements ExceptionInterface {}
+class TransferException extends RuntimeException implements ExceptionInterface
+{
+}
