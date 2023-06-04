@@ -1,8 +1,8 @@
 {
     "name": "pdeans/http",
     "type": "library",
-    "description": "PSR-7 and PSR-17 cURL HTTP client.",
-    "keywords": ["psr7", "psr-7", "psr17", "psr-17", "http", "request", "response", "message", "stream", "uri", "url", "curl", "client", "curl client", "http client"],
+    "description": "PSR-7 cURL HTTP client with support for PSR-17 HTTP factories.",
+    "keywords": ["psr7", "psr-7", "psr17", "psr-17", "http", "request", "response", "message", "stream", "uri", "url", "curl", "client"],
     "license": "MIT",
     "authors": [
         {
