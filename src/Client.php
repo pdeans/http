@@ -48,13 +48,11 @@ class Client implements ClientInterface
     protected static int $MAX_BODY_SIZE;
 
     /**
-     * Create new cURL http client object
+     * Create a new http client.
      */
-    public function __construct(
-        array $options = [],
-        StreamFactoryInterface $stream = null
-    ) {
-        $this->streamFactory  = $stream ?: new StreamFactory();
+    public function __construct(array $options = [])
+    {
+        $this->streamFactory  = new StreamFactory();
         $this->options = $options;
         $this->ch = null;
 
