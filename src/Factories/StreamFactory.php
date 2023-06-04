@@ -5,9 +5,7 @@ namespace pdeans\Http\Factories;
 use Laminas\Diactoros\StreamFactory as PSR17StreamFactory;
 
 /**
- * Stream Factory
- *
- * Create a new stream.
+ * Create a new stream from a string.
  */
 class StreamFactory extends PSR17StreamFactory
 {
