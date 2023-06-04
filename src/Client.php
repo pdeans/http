@@ -2,6 +2,7 @@
 
 namespace pdeans\Http;
 
+use resource;
 use CurlHandle;
 use InvalidArgumentException;
 use RuntimeException;
@@ -29,9 +30,9 @@ class Client implements ClientInterface
     /**
      * cURL handler
      *
-     * @var \CurlHandle
+     * @var \CurlHandle|null
      */
-    protected CurlHandle $ch;
+    protected CurlHandle|null $ch;
 
     /**
      * cURL options array
@@ -56,6 +57,7 @@ class Client implements ClientInterface
     ) {
         $this->stream  = $stream ?: new StreamFactory();
         $this->options = $options;
+        $this->ch = null;
 
         self::$MAX_BODY_SIZE = 1024 * 1024;
     }
@@ -80,9 +82,9 @@ class Client implements ClientInterface
     public function delete(
         UriInterface|string $uri,
         array $headers = [],
-        StreamInterface|null $body = null
+        mixed $body = null
     ): ResponseInterface {
-        return $this->sendRequest(new Request($uri, 'DELETE', $body, $headers));
+        return $this->sendRequest(new Request($uri, 'DELETE', $this->getStream($body), $headers));
     }
 
     /**
@@ -90,7 +92,7 @@ class Client implements ClientInterface
      */
     public function get(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(new Request($uri, 'GET', null, $headers));
+        return $this->sendRequest(new Request($uri, 'GET', $this->stream->createStream(), $headers));
     }
 
     /**
@@ -98,7 +100,7 @@ class Client implements ClientInterface
      */
     public function head(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(new Request($uri, 'HEAD', null, $headers));
+        return $this->sendRequest(new Request($uri, 'HEAD', $this->stream->createStream(), $headers));
     }
 
     /**
@@ -107,9 +109,9 @@ class Client implements ClientInterface
     public function options(
         UriInterface|string $uri,
         array $headers = [],
-        StreamInterface|null $body = null
+        mixed $body = null
     ): ResponseInterface {
-        return $this->sendRequest(new Request($uri, 'OPTIONS', $body, $headers));
+        return $this->sendRequest(new Request($uri, 'OPTIONS', $this->getStream($body), $headers));
     }
 
     /**
@@ -118,9 +120,9 @@ class Client implements ClientInterface
     public function patch(
         UriInterface|string $uri,
         array $headers = [],
-        StreamInterface|null $body = null
+        mixed $body = null
     ): ResponseInterface {
-        return $this->sendRequest(new Request($uri, 'PATCH', $body, $headers));
+        return $this->sendRequest(new Request($uri, 'PATCH', $this->getStream($body), $headers));
     }
 
     /**
@@ -129,9 +131,9 @@ class Client implements ClientInterface
     public function post(
         UriInterface|string $uri,
         array $headers = [],
-        StreamInterface|null $body = null
+        mixed $body = null
     ): ResponseInterface {
-        return $this->sendRequest(new Request($uri, 'POST', $body, $headers));
+        return $this->sendRequest(new Request($uri, 'POST', $this->getStream($body), $headers));
     }
 
     /**
@@ -140,9 +142,9 @@ class Client implements ClientInterface
     public function put(
         UriInterface|string $uri,
         array $headers = [],
-        StreamInterface|null $body = null
+        mixed $body = null
     ): ResponseInterface {
-        return $this->sendRequest(new Request($uri, 'PUT', $body, $headers));
+        return $this->sendRequest(new Request($uri, 'PUT', $this->getStream($body), $headers));
     }
 
     /**
@@ -150,7 +152,7 @@ class Client implements ClientInterface
      */
     public function trace(UriInterface|string $uri, array $headers = []): ResponseInterface
     {
-        return $this->sendRequest(new Request($uri, 'TRACE', null, $headers));
+        return $this->sendRequest(new Request($uri, 'TRACE', $this->stream->createStream(), $headers));
     }
 
     #---------------------------------------------------#
@@ -222,17 +224,13 @@ class Client implements ClientInterface
      */
     protected function createResponse(): ResponseBuilder
     {
-        try {
-            $body = $this->stream->createStream(fopen('php://temp', 'w+b'));
-        } catch (InvalidArgumentException $e) {
-            throw new RuntimeException('Unable to create stream "php://temp"');
-        }
+        $body = $this->stream->createStream();
 
         return new ResponseBuilder(new Response($body, 200, []));
     }
 
     #---------------------------------------------------#
-    # Request Headers
+    # Request Helpers
     #---------------------------------------------------#
 
     /**
@@ -270,6 +268,20 @@ class Client implements ClientInterface
         $headers[] = 'Expect:';
 
         return $headers;
+    }
+
+    /**
+     * Return a StreamInterface instance for the provided stream value.
+     */
+    protected function getStream(mixed $stream = null): StreamInterface
+    {
+        if ($stream instanceof StreamInterface) {
+            return $stream;
+        }
+
+        return is_resource($stream)
+            ? $this->stream->createStreamFromResource($stream)
+            : $this->stream->createStream($stream);
     }
 
     #---------------------------------------------------#
