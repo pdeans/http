@@ -197,5 +197,5 @@ As this library is a layer built upon existing libraries and standards, it is en
 
 - [PSR-7: HTTP Message Interfaces](https://www.php-fig.org/psr/psr-7/)
 - [PSR-17: HTTP Factories Interfaces](https://www.php-fig.org/psr/psr-17/)
-- [Laminas Diactoros Library:](https://docs.laminas.dev/laminas-diactoros/)
+- [Laminas Diactoros Library](https://docs.laminas.dev/laminas-diactoros/)
 - [PHP Client URL Library](https://www.php.net/manual/en/book.curl.php)
