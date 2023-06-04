@@ -1,6 +1,6 @@
-## PHP PSR-7 and PSR-17 cURL HTTP Client
+## HTTP Client Library
 
-Lightweight cURL client implementations of the PHP [PSR-7 HTTP message interfaces](https://www.php-fig.org/psr/psr-7/) and [PSR-17 HTTP factories interfaces](https://www.php-fig.org/psr/psr-17/).
+Lightweight [PSR-7 HTTP message interfaces](https://www.php-fig.org/psr/psr-7/) cURL client with support for [PSR-17 HTTP factories interfaces](https://www.php-fig.org/psr/psr-17/).
 
 ## Installation
 
@@ -49,12 +49,12 @@ The client comes bundled with helper methods to provide a convenient way for iss
 
 `GET`, `HEAD`, and `TRACE` methods take the following parameters:
 
-- String representation of the target url **OR** a `Psr\Http\Message\UriInterface` instance.
+- String representation of the target url **OR** a class instance that implements the PSR-7 `Psr\Http\Message\UriInterface`.
 - Associative array of headers `[headerName => headerValue]`.
 
-`POST`, `PUT`, `PATCH`, `OPTIONS`, and `DELETE` methods take the two parameters listed above, plus the following 3rd parameter for the request body:
+`POST`, `PUT`, `PATCH`, `OPTIONS`, and `DELETE` methods take the two parameters listed above, plus an optional 3rd parameter for the request body:
 
-- String of request body data **OR** a `Psr\Http\Message\StreamInterface` instance **OR** a `resource` instance.
+- String of request body data **OR** a class instance that implements the PSR-7 `Psr\Http\Message\StreamInterface` **OR** a `resource`.
 
 #### Request Usage
 
@@ -64,6 +64,12 @@ $response = $client->get('https://example.com/1', ['custom-header' => 'header/va
 
 // GET request without header
 $response = $client->get('https://example.com/2');
+
+// HEAD request
+$response = $client->head('https://example.com/2');
+
+// TRACE request
+$response = $client->trace('https://example.com/2');
 
 $headers = [
     'Content-Type'  => 'application/json',
@@ -87,15 +93,9 @@ $response = $client->options('https://example.com/4', $headers, $data);
 
 // DELETE request
 $response = $client->delete('https://example.com/4', $headers, $data);
-
-// HEAD request
-$response = $client->head('https://example.com/2', $headers);
-
-// TRACE request
-$response = $client->trace('https://example.com/2', $headers);
 ```
 
-If more control over the request is needed, the helper methods can be bypassed and the `sendRequest` method may be called directly. This method accepts a PSR-7 `Psr\Http\Message\RequestInterface` instance.
+If more control over the request is needed, the helper methods can be bypassed and the `sendRequest` method may be called directly. This method accepts a class instance that implements the PSR-7 `Psr\Http\Message\RequestInterface`.
 
 ```php
 use pdeans\Http\Factories\RequestFactory;
@@ -107,7 +107,7 @@ $response = $client->sendRequest($request);
 
 ### HTTP Responses
 
-Each HTTP request returns a `pdeans\Http\Response` class instance, which is an implementation of the PSR-7 `Psr\Http\Message\RequestInterface`.
+Each HTTP request returns a `pdeans\Http\Response` class instance, which is an implementation of the PSR-7 `Psr\Http\Message\ResponseInterface`.
 
 #### Response Usage
 
@@ -133,14 +133,14 @@ echo $response->getReasonPhrase();
 
 ### PSR-17 Factories
 
-The following HTTP factory classes are available and each implement their associated PSR-17 factory interfaces:
+The following HTTP factory classes are available and each implement their associated PSR-17 factory interface:
 
-- `pdeans\Http\Factories\RequestFactory`
-- `pdeans\Http\Factories\ResponseFactory`
-- `pdeans\Http\Factories\ServerRequestFactory`
-- `pdeans\Http\Factories\StreamFactory`
-- `pdeans\Http\Factories\UploadedFileFactory`
-- `pdeans\Http\Factories\UriFactory`
+- `pdeans\Http\Factories\RequestFactory` implements `Psr\Http\Message\RequestFactoryInterface`
+- `pdeans\Http\Factories\ResponseFactory` implements `Psr\Http\Message\ResponseFactoryInterface`
+- `pdeans\Http\Factories\ServerRequestFactory` implements `Psr\Http\Message\ServerRequestFactoryInterface`
+- `pdeans\Http\Factories\StreamFactory` implements `Psr\Http\Message\StreamFactoryInterface`
+- `pdeans\Http\Factories\UploadedFileFactory` implements `Psr\Http\Message\UploadedFileFactoryInterface`
+- `pdeans\Http\Factories\UriFactory` implements `Psr\Http\Message\UriFactoryInterface`
 
 #### Factory Usage
 
@@ -154,42 +154,48 @@ use pdeans\Http\Factories\UriFactory;
 
 // Psr\Http\Message\RequestFactoryInterface
 $requestFactory = new RequestFactory();
+
 // Psr\Http\Message\RequestInterface
 $request = $requestFactory->createRequest('GET', 'https://example.com/1');
 
 // Psr\Http\Message\ResponseFactoryInterface
 $responseFactory = new ResponseFactory();
+
 // Psr\Http\Message\ResponseInterface
 $response = $responseFactory->createResponse();
 
-// Psr\Http\Message\ServerRequestFactory
+// Psr\Http\Message\ServerRequestFactoryInterface
 $serverRequestFactory = new ServerRequestFactory();
+
 // Psr\Http\Message\ServerRequestInterface
 $serverRequest = $serverRequestFactory->createServerRequest('GET', 'https://example.com/2');
 
-// Psr\Http\Message\StreamFactory
+// Psr\Http\Message\StreamFactoryInterface
 $streamFactory = new StreamFactory();
+
 // Psr\Http\Message\StreamInterface
 $stream = $streamFactory->createStream();
 $fileStream = $streamFactory->createStreamFromFile('dir/api.json');
 $resourceStream = $streamFactory->createStreamFromResource(fopen('php://temp', 'r+'));
 
-// Psr\Http\Message\UploadedFileFactory
+// Psr\Http\Message\UploadedFileFactoryInterface
 $uploadedFileFactory = new UploadedFileFactory();
+
 // Psr\Http\Message\UploadedFileInterface
 $uploadedFile = $uploadedFileFactory->createUploadedFile($fileStream);
 
-// Psr\Http\Message\UriFactory
+// Psr\Http\Message\UriFactoryInterface
 $uriFactory = new UriFactory();
+
 // Psr\Http\Message\UriInterface
 $uri = $uriFactory->createUri();
 ```
 
 ## Further Reading
 
-As this library is a layer built upon existing libraries and standards, I recommend that you read through some of their documentation to get a better understanding of how the various components work.
+As this library is a layer built upon existing libraries and standards, it is encouraged that you read through the documentation of these libraries and standards to get a better understanding of how the various components work.
 
 - [PSR-7: HTTP Message Interfaces](https://www.php-fig.org/psr/psr-7/)
 - [PSR-17: HTTP Factories Interfaces](https://www.php-fig.org/psr/psr-17/)
 - [Laminas Diactoros Library:](https://docs.laminas.dev/laminas-diactoros/)
-- [PHP Client URL Library](http://php.net/manual/en/book.curl.php) (PHP cURL)
+- [PHP Client URL Library](https://www.php.net/manual/en/book.curl.php)
