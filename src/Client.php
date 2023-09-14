@@ -172,9 +172,15 @@ class Client implements ClientInterface
         // Reset cURL handler
         if ($this->ch instanceof CurlHandle) {
             if (function_exists('curl_reset')) {
+                curl_setopt($this->ch, CURLOPT_HEADERFUNCTION, null);
+                curl_setopt($this->ch, CURLOPT_READFUNCTION, null);
+                curl_setopt($this->ch, CURLOPT_WRITEFUNCTION, null);
+                curl_setopt($this->ch, CURLOPT_PROGRESSFUNCTION, null);
+
                 curl_reset($this->ch);
             } else {
                 curl_close($this->ch);
+
                 $this->ch = curl_init();
             }
         } else {
