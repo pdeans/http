@@ -285,6 +285,9 @@ class Client implements ClientInterface
             : $this->streamFactory->createStream($stream);
     }
 
+    /**
+     * Release the request handler.
+     */
     public function release(): void
     {
         if ($this->ch instanceof CurlHandle) {
