@@ -64,9 +64,7 @@ class Client implements ClientInterface
      */
     public function __destruct()
     {
-        if ($this->ch instanceof CurlHandle) {
-            curl_close($this->ch);
-        }
+        $this->release();
     }
 
     #---------------------------------------------------#
@@ -285,6 +283,18 @@ class Client implements ClientInterface
         return is_resource($stream)
             ? $this->streamFactory->createStreamFromResource($stream)
             : $this->streamFactory->createStream($stream);
+    }
+
+    /**
+     * Release the request handler.
+     */
+    public function release(): void
+    {
+        if ($this->ch instanceof CurlHandle) {
+            curl_close($this->ch);
+
+            $this->ch = null;
+        }
     }
 
     #---------------------------------------------------#
