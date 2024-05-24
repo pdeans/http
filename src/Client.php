@@ -274,7 +274,7 @@ class Client implements ClientInterface
     /**
      * Return a StreamInterface instance for the provided stream value.
      */
-    protected function getStream(mixed $stream = null): StreamInterface
+    public function getStream(mixed $stream = null): StreamInterface
     {
         if ($stream instanceof StreamInterface) {
             return $stream;
