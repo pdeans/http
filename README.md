@@ -97,10 +97,27 @@ $response = $client->delete('https://example.com/4', $headers, $data);
 
 If more control over the request is needed, the helper methods can be bypassed and the `sendRequest` method may be called directly. This method accepts a class instance that implements the PSR-7 `Psr\Http\Message\RequestInterface`.
 
+Example `GET` request using the `RequestFactory` class instance:
+
 ```php
 use pdeans\Http\Factories\RequestFactory;
 
 $request = (new RequestFactory())->createRequest('GET', 'https://example.com/1');
+
+$response = $client->sendRequest($request);
+```
+
+Example `POST` request using the `Request` class instance:
+
+```php
+use pdeans\Http\Request;
+
+$request = new Request(
+    uri: 'https://example.com',
+    method: 'POST',
+    headers: ['Content-Type' => 'application/json'],
+    body: $client->getStream(json_encode(['json' => 'json data']))
+);
 
 $response = $client->sendRequest($request);
 ```
