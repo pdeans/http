@@ -282,7 +282,7 @@ class Client implements ClientInterface
 
         return is_resource($stream)
             ? $this->streamFactory->createStreamFromResource($stream)
-            : $this->streamFactory->createStream($stream);
+            : $this->streamFactory->createStream((string) $stream);
     }
 
     /**
