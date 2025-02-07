@@ -1,13 +1,24 @@
-MIT License
+Copyright 2018-Current Miva, Inc.
 
-Copyright (c) 2017 Patrick Stearns
+Miva SDK License Agreement
+
+Last updated: 20 November 2018
+
+BY DOWNLOADING AND/OR IMPLEMENTING THIS SOFTWARE DEVELOPMENT KIT FILE (SDK)
+(THE "SOFTWARE"), YOU AGREE TO THE FOLLOWING:
+
+Miva, Inc. ("Miva") is the sole owner of the Software, and retains complete
+ownership of, and all intellectual property rights in and to, the Software.
+You agree not to violate these rights, and to take all appropriate steps to
+protect Miva's rights. Miva may, at any time, without prior notice, replace,
+modify, alter, improve, enhance, or change the Software.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this Software and associated documentation files, to deal in the Software
+without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
@@ -19,3 +30,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+For the avoidance of doubt, this License Agreement does not govern use of any
+other Miva software or services, including but not limited to the Miva
+Merchant® software and MivaPay®, nor does use of this Software require that you
+obtain or maintain a license or subscription to any other Miva software or
+services.
+
+This License Agreement constitutes the entire and sole agreement between you
+and Miva, regarding the Software described herein, and is entered into as of
+the date on which you download or implement the Software, whichever date is
+earlier.
+
+###END###
